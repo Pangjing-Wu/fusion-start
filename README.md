@@ -4,11 +4,14 @@ If your research group is using **Fusion**, then I would like to congratulate yo
 Welcome to **Fusion Start** — a collection of scripts to help you quickly set up and configure your HPC.
 
 
-## Usage
+## Fast Usage
 
 To get started with **Fusion Start**, you need to run the initialization scripts every time you create a **new environment** or **restart** your HPC/Docker environment. This ensures that all necessary tools, configurations, and user settings are properly applied.
 
-### Step-by-step Usage
+Before running any scripts, make sure they are executable. You can do this with:
+```bash
+chmod +x step_1.sh step_2.sh
+```
 
 1. **Run `step_1.sh`**  
    This script sets up the required user and basic system configuration.  
@@ -16,6 +19,9 @@ To get started with **Fusion Start**, you need to run the initialization scripts
 
 2. **Switch to the new user**  
    After `step_1.sh` completes, switch to the newly created user as instructed in the script output.
+```bash
+su <your_user_name>
+```
 
 3. **Run `step_2.sh`**  
    This script installs Miniconda, Oh My Zsh, and other development tools.  
