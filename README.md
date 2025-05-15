@@ -1,5 +1,5 @@
 # Fusion Start
-If your research group is using **Fusion**, then I would like congraduate you that you will waste you nice days on handle the complicated and unstable HPC (High Performance Computing) environment.
+If your research group is using **Fusion**, then I would like to congratulate you that you will spend your days handling the complicated and unstable HPC (High Performance Computing) environment.
 
 Welcome to **Fusion Start** — a collection of scripts to help you quickly set up and configure your HPC.
 
@@ -7,18 +7,18 @@ Welcome to **Fusion Start** — a collection of scripts to help you quickly set 
 
 This project contains several utility scripts to automate common setup tasks, including:
 
-- Intaslling all basic develop tools not limited to `git`, `conda`, etc.
+- Installing all basic development tools, including but not limited to `git`, `conda`, etc.
 - Installing Oh My Zsh (`install_omzsh.sh`)
 - Freezing driver versions (`freeze_driver.sh`)
 - Linking mount points (`link_mount.sh`)
 
 ## Quick Start
 ### 0. Create a Folder in Data Management and Open a New Online Docker
-Before you begin, **create a folder in your Data Management system** (for example, `./dev-1`). 
+Before you begin, **create a folder in your Data Management system** (for example, `./dev-1`).
 
-This folder will serve as your persistent mount path. By doing this, you ensure that your code and data are safely stored and will **not be lost when the environment shuts down**. 
+This folder will serve as your persistent mount path. By doing this, you ensure that your code and data are safely stored and will **not be lost when the environment shuts down**.
 
-During create new online development environment, please remember to **mount the directory** and turn on **remote access**.
+When creating a new online development environment, please remember to **mount the directory** and turn on **remote access**.
 
 > [!WARNING]  
 > If you skip this step, any files saved in the default environment will be deleted when you stop or restart the Docker environment.
@@ -28,7 +28,7 @@ During create new online development environment, please remember to **mount the
 
 
 ### 1. Upload Environment Content
-Upload all of the `.sh` scripts to the default diractory of current shell.
+Upload all of the `.sh` scripts to the default directory of the current shell.
 
 ### 2. Make Scripts Executable
 Before running, ensure all scripts have execute permissions:
@@ -42,8 +42,8 @@ chmod +x step_1.sh step_2.sh step_3.sh
 After running `step_1.sh`, you will have created a new root user. This is necessary because the default root user cannot start the SSH server.
 
 
-### 4. Install Remaining 
-Then, you should change to the new user before running `step_2.sh`. The `step_2` script will:
+### 4. Install Remaining Scripts
+Then, you should change to the new user before running `step_2.sh`. The `step_2.sh` script will:
 
 1. Install Miniconda for Python environment management
 2. Install Oh My Zsh for an improved shell experience
@@ -55,7 +55,7 @@ Once these steps are complete, you can connect to your environment using SSH ins
 
 
 > [!WARNING]  
-> According to my experience, if you do not freeze the driver versions, you will find that you lost your GPUs and receive error when running `nvidia-smi`.
+> According to my experience, if you do not freeze the driver versions, you may lose access to your GPUs and receive errors when running `nvidia-smi`.
 
 
 ### 5. Sync Settings
