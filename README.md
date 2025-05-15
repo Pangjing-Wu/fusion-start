@@ -34,16 +34,16 @@ Upload all of the `.sh` scripts to the default diractory of current shell.
 Before running, ensure all scripts have execute permissions:
 
 ```bash
-chmod +x init_step_1.sh init_step_2.sh
+chmod +x step_1.sh step_2.sh step_3.sh
 ```
 
-### 3. Change the User after running `init_step_1.sh`
+### 3. Change the User after Running `step_1.sh`
 
-After running `init_step_1.sh`, you will have created a new root user. This is necessary because the default root user cannot start the SSH server.
+After running `step_1.sh`, you will have created a new root user. This is necessary because the default root user cannot start the SSH server.
 
 
-### 4. Install remaining 
-Then, you should change to the new user before running `init_step_2.sh`. The `step_2` script will:
+### 4. Install Remaining 
+Then, you should change to the new user before running `step_2.sh`. The `step_2` script will:
 
 1. Install Miniconda for Python environment management
 2. Install Oh My Zsh for an improved shell experience
@@ -58,14 +58,41 @@ Once these steps are complete, you can connect to your environment using SSH ins
 > According to my experience, if you do not freeze the driver versions, you will find that you lost your GPUs and receive error when running `nvidia-smi`.
 
 
+### 5. Sync Settings
+Syncing Your Shell Settings
+
+To keep your shell configuration and SSH authorized keys consistent across environments, use the following workflow:
+
+- **Pull settings from `/mnt/my_settings`:**
+  - This is done automatically when you run `step_3.sh`. It will restore your `.zshrc` and SSH `authorized_keys` from `/mnt/my_settings` to your home directory.
+
+- **Save (push) your current settings to `/mnt/my_settings`:**
+  - Run:
+    ```sh
+    ./save_settings_to_mnt.sh
+    ```
+    This will copy your current `.zshrc` and SSH `authorized_keys` to `/mnt/my_settings` for persistence.
+
+- **Automatic saving on shell exit (already handled by `step_3.sh`):**
+  - When you run `step_3.sh`, it will automatically add a command to your `.zshrc` to save your settings to `/mnt/my_settings` every time you exit your shell:
+    ```sh
+    # Automatically save settings to /mnt/my_settings on shell exit
+    trap 'if [ -f "$HOME/save_settings_to_mnt.sh" ]; then $HOME/save_settings_to_mnt.sh; fi' EXIT
+    ```
+  - You do not need to manually add this unless you want to customize the behavior.
+
+This setup ensures your shell settings and SSH keys are always up to date and portable between environments.
+
+
 ## Scripts
 
-| Script                | Description                                 |
-|-----------------------|---------------------------------------------|
-| `init_step_1.sh`      | Ceate new user to start ssh service         |
-| `init_step_2.sh`      | Custom initialization step 2                |
-| `install_miniconda.sh`| Installs Miniconda (Python environment)     |
-| `install_omzsh.sh`    | Installs Oh My Zsh for improved shell usage |
-| `freeze_driver.sh`    | Freezes driver versions for reproducibility |
-| `link_mount.sh`       | Links mount points for storage access       |
-
+| Script                     | Description                                         |
+|----------------------------|-----------------------------------------------------|
+| `step_1.sh`                | Create new user to start SSH service                |
+| `step_2.sh`                | Custom initialization step 2                        |
+| `install_miniconda.sh`     | Installs Miniconda (Python environment)             |
+| `install_omzsh.sh`         | Installs Oh My Zsh for improved shell usage         |
+| `freeze_driver.sh`         | Freezes driver versions for reproducibility         |
+| `link_mount.sh`            | Links mount points for storage access               |
+| `step_3.sh`                | Restores settings from `/mnt/my_settings`           |
+| `save_settings_to_mnt.sh`  | Saves settings to `/mnt/my_settings`                |
