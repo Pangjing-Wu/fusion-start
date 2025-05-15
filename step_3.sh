@@ -28,23 +28,44 @@ else
     echo "No authorized_keys file found in $MY_SETTING_DIR/ssh_pubkeys."
 fi
 
-# Add code to .zshrc to automatically save settings to /mnt/my_settings on shell exit, without calling an external script
-ZSHRC_SAVE_CODE=$(cat <<'EOF'
-trap '
-    MY_SETTING_DIR="/mnt/my_settings"
-    mkdir -p "$MY_SETTING_DIR"
-    cp -v "$HOME/.zshrc" "$MY_SETTING_DIR/.zshrc"
-    if [ -f "$HOME/.ssh/authorized_keys" ]; then
-        mkdir -p "$MY_SETTING_DIR/ssh_pubkeys"
-        cp -v "$HOME/.ssh/authorized_keys" "$MY_SETTING_DIR/ssh_pubkeys/authorized_keys"
-    fi
-' EXIT
-EOF
-)
-if ! grep -Fxq "$ZSHRC_SAVE_CODE" "$HOME/.zshrc"; then
-    echo "" >> "$HOME/.zshrc"
-    echo "# Automatically save settings to /mnt/my_settings on shell exit" >> "$HOME/.zshrc"
-    echo "$ZSHRC_SAVE_CODE" >> "$HOME/.zshrc"
+echo "✅ Pull complete." 
+
+# Copy all sync-scripts to $HOME/.sync-scripts
+SYNC_SCRIPTS_SRC="$MY_SETTING_DIR/sync-scripts"
+SYNC_SCRIPTS_DEST="$HOME/.sync-scripts"
+
+echo "Copying sync-scripts to $SYNC_SCRIPTS_DEST..."
+if [ -d "$SYNC_SCRIPTS_SRC" ]; then
+    mkdir -p "$SYNC_SCRIPTS_DEST"
+    cp -v "$SYNC_SCRIPTS_SRC"/* "$SYNC_SCRIPTS_DEST"/
+else
+    echo "No sync-scripts directory found in $MY_SETTING_DIR."
 fi
 
-echo "✅ Pull complete." 
+echo "✅ Sync-scripts copied to $SYNC_SCRIPTS_DEST."
+
+# Add code to .zshrc to run all sync scripts on shell sign-out
+echo "Adding sync-scripts logout hook to .zshrc..."
+
+if [ -f "$HOME/.zshrc" ]; then
+    # Only add the block if not already present
+    if ! grep -q "# Fusion sync-scripts on logout" "$HOME/.zshrc"; then
+        cat << 'EOF' >> "$HOME/.zshrc"
+
+# Fusion sync-scripts on logout
+if [ -d "$HOME/.sync-scripts" ]; then
+    for f in "$HOME/.sync-scripts/"*; do
+        [ -x "$f" ] && [[ "$f" != *.md ]] && echo "Registering sync script: $f" && trap "$f" EXIT
+    done
+fi
+EOF
+    else
+        echo "sync-scripts logout hook already present in .zshrc."
+    fi
+else
+    echo "No .zshrc found in home directory to update for sync-scripts."
+fi
+
+echo "✅ Sync-scripts logout hook added to .zshrc."
+
+echo "🎉 Done!"
