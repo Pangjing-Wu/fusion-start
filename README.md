@@ -3,14 +3,36 @@ If your research group is using **Fusion**, then I would like to congratulate yo
 
 Welcome to **Fusion Start** — a collection of scripts to help you quickly set up and configure your HPC.
 
+
+## Usage
+
+To get started with **Fusion Start**, you need to run the initialization scripts every time you create a **new environment** or **restart** your HPC/Docker environment. This ensures that all necessary tools, configurations, and user settings are properly applied.
+
+### Step-by-step Usage
+
+1. **Run `step_1.sh`**  
+   This script sets up the required user and basic system configuration.  
+   **You must run this script first whenever you start a new environment or after a restart.**
+
+2. **Switch to the new user**  
+   After `step_1.sh` completes, switch to the newly created user as instructed in the script output.
+
+3. **Run `step_2.sh`**  
+   This script installs Miniconda, Oh My Zsh, and other development tools.  
+   **Always run this script after switching to the new user.**
+
+>> [!NOTE]
+> You need to repeat these steps every time you start a new environment or after a system restart to ensure your setup is complete and up-to-date.
+
+
 ## Overview
 
 This project contains several utility scripts to automate common setup tasks, including:
 
-- Installing all basic development tools, including but not limited to `git`, `conda`, etc.
-- Installing Oh My Zsh (`install_omzsh.sh`)
-- Freezing driver versions (`freeze_driver.sh`)
-- Linking mount points (`link_mount.sh`)
+- Installing basic development tools, including `git`, `conda`, and more
+- Installing Oh My Zsh (`init/install_omzsh.sh`)
+- Freezing NVIDIA driver and related library versions (`init/freeze_driver.sh`)
+- Disabling automatic system updates (`init/freeze_auto_update.sh`)
 
 ## Quick Start
 ### 0. Create a Folder in Data Management and Open a New Online Docker
