@@ -20,9 +20,4 @@ echo "Running install_miniconda.sh..."
 echo "Running install_omzsh.sh..."
 ./init/install_omzsh.sh
 
-# Run link_mount.sh
-echo "Running link_mount.sh..."
-./init/link_mount.sh
-
-
 echo "All init scripts executed."

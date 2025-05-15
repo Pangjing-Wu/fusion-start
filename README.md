@@ -34,12 +34,15 @@ Upload all of the `.sh` scripts to the default directory of the current shell.
 Before running, ensure all scripts have execute permissions:
 
 ```bash
-chmod +x step_1.sh step_2.sh step_3.sh
+chmod +x step_1.sh step_2.sh
 ```
 
 ### 3. Change the User after Running `step_1.sh`
 
 After running `step_1.sh`, you will have created a new root user. This is necessary because the default root user cannot start the SSH server.
+
+> [!NOTE]
+> Make sure your home directory is located under `/workspace` as specified in the `Dockerfile`. This ensures that all your files are preserved even after restarting the environment.
 
 
 ### 4. Run Initialization Scripts
@@ -61,30 +64,6 @@ Once these steps are complete, you can connect to your environment using SSH ins
 > According to my experience, if you do not freeze the driver versions, you may lose access to your GPUs and receive errors when running `nvidia-smi`.
 
 
-### 5. Sync Settings
-Syncing Your Shell Settings
-
-To keep your shell configuration and SSH authorized keys consistent across environments, use the following workflow:
-
-- **Pull settings from `/mnt/my_settings`:**
-  - This is done automatically when you run `step_3.sh`. It will restore your `.zshrc` and SSH `authorized_keys` from `/mnt/my_settings` to your home directory.
-
-- **Save (push) your current settings to `/mnt/my_settings`:**
-  - Run:
-    ```sh
-    ./save_settings_to_mnt.sh
-    ```
-    This will copy your current `.zshrc` and SSH `authorized_keys` to `/mnt/my_settings` for persistence.
-
-- **Automatic saving on shell exit (already handled by `step_3.sh`):**
-  - When you run `step_3.sh`, it will automatically add a command to your `.zshrc` to save your settings to `/mnt/my_settings` every time you exit your shell:
-    ```sh
-    # Automatically save settings to /mnt/my_settings on shell exit
-    trap 'if [ -f "$HOME/save_settings_to_mnt.sh" ]; then $HOME/save_settings_to_mnt.sh; fi' EXIT
-    ```
-  - You do not need to manually add this unless you want to customize the behavior.
-
-This setup ensures your shell settings and SSH keys are always up to date and portable between environments.
 
 
 ## Scripts
@@ -97,7 +76,3 @@ This setup ensures your shell settings and SSH keys are always up to date and po
 | `init/freeze_driver.sh`     | Hold NVIDIA driver and related libraries                  |
 | `init/install_miniconda.sh` | Install Miniconda, set up conda for zsh, start SSH server |
 | `init/install_omzsh.sh`     | Install zsh, Oh My Zsh, plugins, configure .zshrc          |
-| `init/link_mount.sh`        | Set /mnt permissions, symlink to ~/mnt                    |
-| `step_3.sh`                 | Copy sync scripts, set logout hook                        |
-| `sync-scripts/ssh-pubkey.sh`| Save SSH authorized_keys to /mnt/my_settings/ssh_pubkeys  |
-| `sync-scripts/user-setting.sh`| Save .zshrc to /mnt/my_settings                         |
