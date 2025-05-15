@@ -42,14 +42,17 @@ chmod +x step_1.sh step_2.sh step_3.sh
 After running `step_1.sh`, you will have created a new root user. This is necessary because the default root user cannot start the SSH server.
 
 
-### 4. Install Remaining Scripts
-Then, you should change to the new user before running `step_2.sh`. The `step_2.sh` script will:
+### 4. Run Initialization Scripts
 
-1. Install Miniconda for Python environment management
-2. Install Oh My Zsh for an improved shell experience
-3. Freeze driver versions for system stability
-4. Link mount points for easy storage access
-5. Install and configure the SSH server
+After creating and switching to your new user, proceed to run `step_2.sh`. This script will:
+
+1. Install Miniconda to manage your Python environments
+2. Set up Oh My Zsh for a better shell experience
+3. Freeze NVIDIA driver and related library versions to prevent unwanted updates
+4. Link your mounted storage for easy access from your home directory
+5. Install and configure the SSH server for remote access
+
+Make sure you are logged in as the new user before running `step_2.sh`.
 
 Once these steps are complete, you can connect to your environment using SSH instead of the web interface, providing a much better development experience.
 
@@ -86,13 +89,15 @@ This setup ensures your shell settings and SSH keys are always up to date and po
 
 ## Scripts
 
-| Script                     | Description                                         |
-|----------------------------|-----------------------------------------------------|
-| `step_1.sh`                | Create new user to start SSH service                |
-| `step_2.sh`                | Custom initialization step 2                        |
-| `install_miniconda.sh`     | Installs Miniconda (Python environment)             |
-| `install_omzsh.sh`         | Installs Oh My Zsh for improved shell usage         |
-| `freeze_driver.sh`         | Freezes driver versions for reproducibility         |
-| `link_mount.sh`            | Links mount points for storage access               |
-| `step_3.sh`                | Restores settings from `/mnt/my_settings`           |
-| `save_settings_to_mnt.sh`  | Saves settings to `/mnt/my_settings`                |
+| Script                      | Description                                               |
+|-----------------------------|-----------------------------------------------------------|
+| `step_1.sh`                 | Create user, grant sudo, switch to user                   |
+| `step_2.sh`                 | Run init scripts: disable updates, link /mnt, etc.        |
+| `init/freeze_auto_update.sh`| Disable all system auto-updates and related services      |
+| `init/freeze_driver.sh`     | Hold NVIDIA driver and related libraries                  |
+| `init/install_miniconda.sh` | Install Miniconda, set up conda for zsh, start SSH server |
+| `init/install_omzsh.sh`     | Install zsh, Oh My Zsh, plugins, configure .zshrc          |
+| `init/link_mount.sh`        | Set /mnt permissions, symlink to ~/mnt                    |
+| `step_3.sh`                 | Copy sync scripts, set logout hook                        |
+| `sync-scripts/ssh-pubkey.sh`| Save SSH authorized_keys to /mnt/my_settings/ssh_pubkeys  |
+| `sync-scripts/user-setting.sh`| Save .zshrc to /mnt/my_settings                         |
