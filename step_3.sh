@@ -7,7 +7,7 @@ MY_SETTING_DIR="/mnt/my_settings"
 
 # Create settings directory if it doesn't exist
 if [ ! -d "$MY_SETTING_DIR" ]; then
-    echo "Creating $MY_SETTING_DIR..."
+    sudo echo "Creating $MY_SETTING_DIR..."
     mkdir -p "$MY_SETTING_DIR"
 fi
 
