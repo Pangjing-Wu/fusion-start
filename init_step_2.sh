@@ -1,6 +1,6 @@
 #!/bin/bash
 
-chmod +x install_miniconda.sh install_omzsh.sh freeze_driver.sh link_mount.sh
+sudo chmod +x install_miniconda.sh install_omzsh.sh freeze_driver.sh link_mount.sh
 
 # Run install_miniconda.sh
 echo "Running install_miniconda.sh..."
