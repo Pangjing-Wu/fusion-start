@@ -1,14 +1,15 @@
 # Fusion Start
+
 If your research group is using **Fusion**, then I would like to congratulate you that you will spend your days handling the complicated and unstable HPC (High Performance Computing) environment.
 
 Welcome to **Fusion Start** — a collection of scripts to help you quickly set up and configure your HPC.
-
 
 ## Fast Usage
 
 To get started with **Fusion Start**, you need to run the initialization scripts every time you create a **new environment** or **restart** your HPC/Docker environment. This ensures that all necessary tools, configurations, and user settings are properly applied.
 
 Before running any scripts, make sure they are executable. You can do this with:
+
 ```bash
 chmod +x step_1.sh step_2.sh
 ```
@@ -19,6 +20,7 @@ chmod +x step_1.sh step_2.sh
 
 2. **Switch to the new user**  
    After `step_1.sh` completes, switch to the newly created user as instructed in the script output.
+
 ```bash
 su <your_user_name>
 ```
@@ -30,7 +32,6 @@ su <your_user_name>
 >> [!NOTE]
 > You need to repeat these steps every time you start a new environment or after a system restart to ensure your setup is complete and up-to-date.
 
-
 ## Overview
 
 This project contains several utility scripts to automate common setup tasks, including:
@@ -41,7 +42,9 @@ This project contains several utility scripts to automate common setup tasks, in
 - Disabling automatic system updates (`init/freeze_auto_update.sh`)
 
 ## Quick Start
+
 ### 0. Create a Folder in Data Management and Open a New Online Docker
+
 Before you begin, **create a folder in your Data Management system** (for example, `./dev-1`).
 
 This folder will serve as your persistent mount path. By doing this, you ensure that your code and data are safely stored and will **not be lost when the environment shuts down**.
@@ -54,11 +57,12 @@ When creating a new online development environment, please remember to **mount t
 > [!NOTE]
 > When launching a new Docker environment, make sure to **mount this folder** as a volume. This ensures your scripts, code, and data will always be available, even after environment restarts or shutdowns.
 
-
 ### 1. Upload Environment Content
+
 Upload all of the `.sh` scripts to the default directory of the current shell.
 
 ### 2. Make Scripts Executable
+
 Before running, ensure all scripts have execute permissions:
 
 ```bash
@@ -71,7 +75,6 @@ After running `step_1.sh`, you will have created a new root user. This is necess
 
 > [!NOTE]
 > Make sure your home directory is located under `/workspace` as specified in the `Dockerfile`. This ensures that all your files are preserved even after restarting the environment.
-
 
 ### 4. Run Initialization Scripts
 
@@ -87,12 +90,8 @@ Make sure you are logged in as the new user before running `step_2.sh`.
 
 Once these steps are complete, you can connect to your environment using SSH instead of the web interface, providing a much better development experience.
 
-
 > [!WARNING]  
 > According to my experience, if you do not freeze the driver versions, you may lose access to your GPUs and receive errors when running `nvidia-smi`.
-
-
-
 
 ## Scripts
 
@@ -103,4 +102,5 @@ Once these steps are complete, you can connect to your environment using SSH ins
 | `init/freeze_auto_update.sh`| Disable all system auto-updates and related services      |
 | `init/freeze_driver.sh`     | Hold NVIDIA driver and related libraries                  |
 | `init/install_miniconda.sh` | Install Miniconda, set up conda for zsh, start SSH server |
-| `init/install_omzsh.sh`     | Install zsh, Oh My Zsh, plugins, configure .zshrc          |
+| `init/install_omzsh.sh`     | Install zsh, Oh My Zsh, plugins, configure .zshrc         |
+| `init/cuda_install.sh`      | Install cuda-toolkit                                      |
