@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     build-essential \
     libgl1-mesa-glx \ 
+    zip \
     unzip \ 
     zsh \
     && systemctl enable ssh \
