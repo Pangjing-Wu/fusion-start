@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \ 
     zsh \
+    libnuma1 \
+    libnuma-dev \
     && systemctl enable ssh \
     && service ssh start \
     && rm -rf /var/lib/apt/lists/*
